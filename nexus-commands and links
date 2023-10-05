@@ -1,0 +1,37 @@
+https://help.sonatype.com/repomanager3/product-information/download/download-archives---repository-manager-3
+https://www.youtube.com/watch?v=jtbmtSTnGZo
+
+#install java-8
+sudo apt-get install openjdk-8-jdk -y
+
+wget https://download.sonatype.com/nexus/3/nexus-3.61.0-02-unix.tar.gz
+tar xvzf nexus-3.61.0-02-unix.tar.gz
+mv nexus-3.61.0-02 nexus
+cd nexus/
+cd bin/
+ls -l
+adduser nexus
+passwd nexus
+sudo vi /etc/sudoers ( copy and paste this: nexus   ALL=(ALL:ALL) ALL NOPASSWD: ALL)
+#cd back into /opt and ls to see the folders, you should find nexus and sonatype directory, execute the following command
+chown -R nexus:nexus nexus
+chown -R nexus:nexus sonatype-work
+cd nexus/bin
+vi nexus.rc  #uncomment the line below and insert nexus
+run_as_user="nexus"
+# clicl on the help.sonatype.com link above. go to installation and upgrade and click on run as a service
+#copy the systemd configuration file content. I have pasted it below for your convinience.
+cd /etc/systemd/system/
+vi nexus.service  :copy and paste the entire lines below
+
+sudo systemctl daemon-reload
+sudo systemctl enable nexus
+sudo systemctl start nexus
+
+#to access nexus, copy your server ip address and use port 8081
+e.g 1:2:34:89:8081
+username : admin
+#for password
+cat /opt/sonatype-work/nexus3/admin.password #copy the content. 
+
+voila, you are in.
